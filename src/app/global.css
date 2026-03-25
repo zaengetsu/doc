@@ -1,11 +1,13 @@
 @import "tailwindcss";
 
 @theme {
-    --font-sans: "Inter", "system-ui", "sans-serif";
+    --font-sans: "Inter Variable", "Inter", "system-ui", "sans-serif";
+    --font-mono: "Fira Code", "JetBrains Mono", "monospace";
 
     --color-brand: #3b82f6;
+    --color-brand-dark: #2563eb;
     --color-zinc-900: #18181b;
-    --color-zinc-950: #0a0a0a;
+    --color-zinc-950: #09090b;
 }
 
 /* Custom Plugins */
@@ -17,21 +19,67 @@
 @variant data-current (&[data-current="true"]);
 
 @layer base {
+    :root {
+        --background: 0 0% 100%;
+        --foreground: 240 10% 3.9%;
+        --card: 0 0% 100%;
+        --card-foreground: 240 10% 3.9%;
+        --popover: 0 0% 100%;
+        --popover-foreground: 240 10% 3.9%;
+        --primary: 240 5.9% 10%;
+        --primary-foreground: 0 0% 98%;
+        --secondary: 240 4.8% 95.9%;
+        --secondary-foreground: 240 5.9% 10%;
+        --muted: 240 4.8% 95.9%;
+        --muted-foreground: 240 3.8% 46.1%;
+        --accent: 240 4.8% 95.9%;
+        --accent-foreground: 240 5.9% 10%;
+        --destructive: 0 84.2% 60.2%;
+        --destructive-foreground: 0 0% 98%;
+        --border: 240 5.9% 90%;
+        --input: 240 5.9% 90%;
+        --ring: 240 10% 3.9%;
+        --radius: 0.5rem;
+    }
+
+    .dark {
+        --background: 240 10% 3.9%;
+        --foreground: 0 0% 98%;
+        --card: 240 10% 3.9%;
+        --card-foreground: 0 0% 98%;
+        --popover: 240 10% 3.9%;
+        --popover-foreground: 0 0% 98%;
+        --primary: 0 0% 98%;
+        --primary-foreground: 240 5.9% 10%;
+        --secondary: 240 3.7% 15.9%;
+        --secondary-foreground: 0 0% 98%;
+        --muted: 240 3.7% 15.9%;
+        --muted-foreground: 240 5% 64.9%;
+        --accent: 240 3.7% 15.9%;
+        --accent-foreground: 0 0% 98%;
+        --destructive: 0 62.8% 30.6%;
+        --destructive-foreground: 0 0% 98%;
+        --border: 240 3.7% 15.9%;
+        --input: 240 3.7% 15.9%;
+        --ring: 240 4.9% 83.9%;
+    }
+
     body {
         @apply antialiased text-slate-900 bg-white selection:bg-blue-100 selection:text-blue-900 transition-colors duration-300;
+        font-feature-settings: "cv02", "cv03", "cv04", "cv11";
     }
 }
 
 /* Dark Mode Overrides (Deep Black) */
 :where(.dark) {
     body {
-        @apply bg-[#0a0a0a] text-zinc-300;
+        @apply bg-zinc-950 text-zinc-300;
     }
 }
 
 /* Classic Docs Typography */
 .prose {
-    @apply max-w-none prose-slate prose-headings:tracking-tight prose-a:text-blue-600 prose-a:no-underline hover:prose-a:underline;
+    @apply max-w-none prose-slate prose-headings:tracking-tight prose-a:text-blue-600 prose-a:no-underline hover:prose-a:underline prose-pre:bg-transparent prose-pre:p-0;
 }
 
 .dark .prose {
@@ -39,7 +87,7 @@
 }
 
 .prose h1 {
-    @apply text-4xl font-extrabold mb-8 text-slate-900;
+    @apply text-4xl font-extrabold mb-8 text-slate-900 tracking-tight;
 }
 
 .dark .prose h1 {
@@ -47,68 +95,71 @@
 }
 
 .prose h2 {
-    @apply text-2xl font-bold mt-12 mb-6 pb-2 border-b border-slate-200;
+    @apply text-2xl font-bold mt-12 mb-6 pb-2 border-b border-slate-200/60;
 }
 
 .dark .prose h2 {
-    @apply border-zinc-800 text-zinc-100;
+    @apply border-zinc-800/60 text-zinc-100;
+}
+
+.prose h3 {
+    @apply text-xl font-semibold mt-8 mb-4;
+}
+
+.prose p {
+    @apply leading-7 text-slate-600;
+}
+
+.dark .prose p {
+    @apply text-zinc-400;
 }
 
 /* Sidebar Styles */
 aside {
-    @apply bg-white border-r border-slate-100 transition-colors duration-300;
+    @apply bg-white border-r border-slate-200/60 transition-colors duration-300;
 }
 
 .dark aside {
-    @apply bg-[#0a0a0a] border-zinc-900;
+    @apply bg-zinc-950 border-zinc-800/60;
 }
 
 .sidebar-link-active {
-    @apply text-blue-600 bg-blue-50/80 font-semibold relative;
+    @apply text-blue-600 bg-blue-50/50 font-semibold relative;
 }
 
 .dark .sidebar-link-active {
-    @apply text-blue-400 bg-blue-950/20 ring-1 ring-blue-500/20;
-}
-
-.sidebar-link-active::before {
-    content: "";
-    @apply absolute left-0 top-0 bottom-0 w-0.5 bg-blue-600;
-}
-
-.dark .sidebar-link-active::before {
-    @apply bg-blue-500;
+    @apply text-blue-400 bg-blue-500/10 ring-1 ring-blue-500/20;
 }
 
 /* Code Blocks Styling (Premium) */
+.code-block-wrapper {
+    @apply relative my-6 rounded-xl border border-slate-200/60 bg-slate-50/50 overflow-hidden transition-all;
+}
+
+.dark .code-block-wrapper {
+    @apply border-zinc-800/60 bg-zinc-900/30;
+}
+
 pre {
-    @apply bg-slate-900 rounded-lg p-4 my-6 shadow-sm overflow-x-auto border border-slate-800 transition-colors duration-300;
-}
-
-.dark pre {
-    @apply bg-[#111] border-zinc-800;
-}
-
-code {
-    @apply font-mono text-sm;
+    @apply p-4 overflow-x-auto text-sm leading-relaxed !bg-transparent;
 }
 
 /* Mermaid Wrapper */
 .mermaid {
-    @apply my-8 flex justify-center bg-white dark:bg-zinc-900 p-6 rounded-xl border border-slate-100 dark:border-zinc-800;
+    @apply my-8 flex justify-center bg-white dark:bg-zinc-900/50 p-6 rounded-xl border border-slate-200/60 dark:border-zinc-800/60;
 }
 
 /* Header Styles */
 header {
-    @apply border-b border-slate-100 bg-white/90 backdrop-blur-sm sticky top-0 z-50 transition-colors duration-300;
+    @apply border-b border-slate-200/60 bg-white/80 backdrop-blur-xl sticky top-0 z-50 transition-colors duration-300;
 }
 
 .dark header {
-    @apply border-zinc-900 bg-[#0a0a0a]/90;
+    @apply border-zinc-800/60 bg-zinc-950/80;
 }
 
 .navbar-link {
-    @apply text-sm font-medium text-slate-600 hover:text-slate-900 transition-colors;
+    @apply text-sm font-medium text-slate-500 hover:text-slate-900 transition-colors;
 }
 
 .dark .navbar-link {
@@ -117,11 +168,11 @@ header {
 
 /* Right Sidebar (TOC) */
 .toc-container {
-    @apply hidden xl:block w-64 h-[calc(100vh-4rem)] sticky top-16 px-4 py-8 text-sm;
+    @apply hidden xl:block w-64 h-[calc(100vh-4rem)] sticky top-16 px-6 py-10 text-sm;
 }
 
 .toc-link {
-    @apply block py-1 text-slate-500 hover:text-slate-900 transition-colors;
+    @apply block py-1.5 text-slate-500 hover:text-slate-900 transition-colors truncate;
 }
 
 .dark .toc-link {
@@ -134,4 +185,22 @@ header {
 
 .dark .toc-link-active {
     @apply text-blue-400;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+}
+
+::-webkit-scrollbar-track {
+    @apply bg-transparent;
+}
+
+::-webkit-scrollbar-thumb {
+    @apply bg-slate-200 rounded-full hover:bg-slate-300 transition-colors;
+}
+
+.dark ::-webkit-scrollbar-thumb {
+    @apply bg-zinc-800 hover:bg-zinc-700;
 }

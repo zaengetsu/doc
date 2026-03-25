@@ -1,8 +1,7 @@
 import { generateStaticParamsFor, importPage } from 'nextra/pages'
+import { notFound } from 'next/navigation'
 
 export const generateStaticParams = generateStaticParamsFor('mdxPath')
-
-import { notFound } from 'next/navigation'
 
 export default async function Page(props) {
     const params = await props.params
@@ -23,7 +22,10 @@ export default async function Page(props) {
         const { default: MDXPage, toc, metadata } = await importPage(actualPath, locale)
         return <MDXPage {...props} />
     } catch (e) {
-        console.error('Nextra error:', e)
+        // Only log in development
+        if (process.env.NODE_ENV === 'development') {
+            console.error('Nextra error:', e)
+        }
         notFound()
     }
 }
