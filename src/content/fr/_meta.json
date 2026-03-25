@@ -1,6 +1,11 @@
 {
-  "index": "Accueil",
-  "about": "À Propos",
-  "advanced": "Fonctionnalités Avancées",
-  "another": "Une autre page"
+  "index": "Introduction",
+  "about": "À propos",
+  "architecture": "Architecture",
+  "api-reference": "Référence API",
+  "guides": "Guides",
+  "another": "Autre page",
+  "mermaid": "Diagrammes Mermaid",
+  "code": "Blocs de code",
+  "advanced": "Avancé"
 }

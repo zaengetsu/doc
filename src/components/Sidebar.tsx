@@ -13,26 +13,26 @@ export function Sidebar({ pageMap, currentLocale }) {
     useEffect(() => setMounted(true), [])
 
     if (!mounted) return (
-        <aside className="w-64 border-r border-slate-200/60 h-[calc(100vh-4rem)] sticky top-16 bg-white dark:bg-zinc-950 dark:border-zinc-800/60" />
+        <aside className="w-64 border-r border-slate-100/40 h-[calc(100vh-3.5rem)] sticky top-14 bg-white dark:bg-[#09090b] dark:border-zinc-900/40" />
     )
 
     return (
-        <aside className="w-64 lg:w-72 border-r border-slate-200/60 h-[calc(100vh-4rem)] sticky top-16 flex flex-col bg-white dark:bg-zinc-950 dark:border-zinc-800/60 transition-colors duration-300">
-            <nav className="flex-1 overflow-y-auto px-4 lg:px-6 py-10 space-y-1.5 scrollbar-thin">
+        <aside className="w-64 lg:w-[280px] border-r border-slate-100/40 h-[calc(100vh-3.5rem)] sticky top-14 flex flex-col bg-white dark:bg-[#09090b] dark:border-zinc-900/40 transition-colors duration-300">
+            <nav className="flex-1 overflow-y-auto px-6 py-12 space-y-2 scrollbar-thin">
                 {pageMap?.map((item) => (
                     <SidebarItem key={item.route || item.name} item={item} pathname={pathname} depth={0} />
                 ))}
             </nav>
 
-            <div className="p-4 border-t border-slate-200/60 dark:border-zinc-800/60">
+            <div className="p-4 mx-6 mb-6 border-t border-slate-100/50 dark:border-zinc-900/50">
                 <button
                     onClick={() => setTheme(resolvedTheme === 'dark' ? 'light' : 'dark')}
-                    className="flex items-center gap-3 text-xs font-medium text-slate-500 hover:text-slate-900 dark:text-zinc-500 dark:hover:text-zinc-100 transition-all px-3 py-2 rounded-xl hover:bg-slate-50 dark:hover:bg-zinc-900 w-full group"
+                    className="flex items-center gap-3 text-[11px] font-semibold text-slate-500 hover:text-slate-900 dark:text-zinc-500 dark:hover:text-zinc-100 transition-all px-3 py-2.5 rounded-xl hover:bg-slate-50 dark:hover:bg-zinc-900/50 w-full group"
                 >
-                    <div className="p-1 rounded-md bg-slate-100 dark:bg-zinc-800 group-hover:bg-blue-100 dark:group-hover:bg-blue-900/30 transition-colors">
-                        {resolvedTheme === 'dark' ? <MoonIcon className="w-3.5 h-3.5" /> : <SunIcon className="w-3.5 h-3.5" />}
+                    <div className="p-1.5 rounded-lg bg-slate-100 dark:bg-zinc-900 group-hover:bg-blue-100 dark:group-hover:bg-blue-900/20 transition-colors">
+                        {resolvedTheme === 'dark' ? <MoonIcon className="w-3 h-3" /> : <SunIcon className="w-3 h-3" />}
                     </div>
-                    <span className="capitalize">{resolvedTheme} Mode</span>
+                    <span className="capitalize tracking-tight">{resolvedTheme} Appearance</span>
                 </button>
             </div>
         </aside>
@@ -49,18 +49,19 @@ function SidebarItem({ item, pathname, depth }) {
             <div className="space-y-1">
                 <button
                     onClick={() => setIsExpanded(!isExpanded)}
-                    className={`w-full flex items-center justify-between px-3 py-2 text-sm font-semibold rounded-xl transition-all group ${
+                    className={`w-full flex items-center justify-between px-3 py-2 text-sm font-semibold rounded-lg transition-all group ${
                         depth === 0 ? 'text-slate-900 dark:text-zinc-100' : 'text-slate-600 dark:text-zinc-400'
-                    } hover:bg-slate-50 dark:hover:bg-zinc-900/50`}
+                    } hover:bg-slate-50/50 dark:hover:bg-zinc-900/30`}
                 >
                     <div className="flex items-center gap-2.5 truncate">
-                        {depth === 0 && <FolderIcon className="w-4 h-4 text-slate-400" />}
-                        <span className="truncate uppercase tracking-wider text-[11px] font-bold opacity-80">{item.title || item.name}</span>
+                        <span className={`truncate ${depth === 0 ? 'uppercase tracking-widest text-[10px] opacity-70 font-bold' : 'text-xs'}`}>
+                            {item.title || item.name}
+                        </span>
                     </div>
-                    <ChevronIcon className={`w-3.5 h-3.5 text-slate-400 transition-transform duration-300 ${isExpanded ? 'rotate-90' : ''}`} />
+                    <ChevronIcon className={`w-3 h-3 text-slate-400 transition-transform duration-300 ${isExpanded ? 'rotate-90' : ''}`} />
                 </button>
                 {isExpanded && (
-                    <div className="ml-3.5 border-l border-slate-100 dark:border-zinc-900 pl-2.5 mt-1 space-y-1">
+                    <div className={`mt-1 space-y-1 ${depth === 0 ? 'ml-0' : 'ml-4 border-l border-slate-100 dark:border-zinc-900 pl-3'}`}>
                         {item.children?.map((child) => (
                             <SidebarItem
                                 key={child.route || child.name}
@@ -79,10 +80,10 @@ function SidebarItem({ item, pathname, depth }) {
         return (
             <Link
                 href={item.route || '#'}
-                className={`flex items-center px-3 py-2.5 text-sm font-medium rounded-xl transition-all duration-300 ${
+                className={`flex items-center px-3 py-2 text-[13px] font-medium rounded-lg transition-all duration-300 ${
                     isDirectActive
-                    ? 'text-blue-600 bg-blue-50/50 dark:text-blue-400 dark:bg-blue-500/10 ring-1 ring-blue-500/10 shadow-sm shadow-blue-500/5'
-                    : 'text-slate-500 hover:text-slate-900 hover:bg-slate-50 dark:text-zinc-400 dark:hover:text-zinc-100 dark:hover:bg-zinc-900/50'
+                    ? 'sidebar-link-active'
+                    : 'text-slate-500 hover:text-slate-900 hover:bg-slate-50/50 dark:text-zinc-400 dark:hover:text-zinc-100 dark:hover:bg-zinc-900/30'
                 }`}
             >
                 {item.title || item.name}
@@ -96,12 +97,6 @@ function SidebarItem({ item, pathname, depth }) {
 function ChevronIcon({ className }) {
     return (
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className={className}><polyline points="9 18 15 12 9 6"></polyline></svg>
-    )
-}
-
-function FolderIcon({ className }) {
-    return (
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path></svg>
     )
 }
 

@@ -4,9 +4,8 @@
     --font-sans: "Inter Variable", "Inter", "system-ui", "sans-serif";
     --font-mono: "Fira Code", "JetBrains Mono", "monospace";
 
-    --color-brand: #3b82f6;
-    --color-brand-dark: #2563eb;
-    --color-zinc-900: #18181b;
+    --color-brand: #2563eb;
+    --color-brand-dark: #1d4ed8;
     --color-zinc-950: #09090b;
 }
 
@@ -14,161 +13,113 @@
 @plugin "@tailwindcss/typography";
 @plugin "@tailwindcss/forms";
 
-/* Custom Variants */
-@variant data-active (&[data-active="true"]);
-@variant data-current (&[data-current="true"]);
-
 @layer base {
     :root {
         --background: 0 0% 100%;
         --foreground: 240 10% 3.9%;
-        --card: 0 0% 100%;
-        --card-foreground: 240 10% 3.9%;
-        --popover: 0 0% 100%;
-        --popover-foreground: 240 10% 3.9%;
-        --primary: 240 5.9% 10%;
-        --primary-foreground: 0 0% 98%;
-        --secondary: 240 4.8% 95.9%;
-        --secondary-foreground: 240 5.9% 10%;
         --muted: 240 4.8% 95.9%;
         --muted-foreground: 240 3.8% 46.1%;
-        --accent: 240 4.8% 95.9%;
-        --accent-foreground: 240 5.9% 10%;
-        --destructive: 0 84.2% 60.2%;
-        --destructive-foreground: 0 0% 98%;
         --border: 240 5.9% 90%;
-        --input: 240 5.9% 90%;
-        --ring: 240 10% 3.9%;
-        --radius: 0.5rem;
+        --radius: 0.75rem;
     }
 
     .dark {
-        --background: 240 10% 3.9%;
+        --background: 0 0% 4%;
         --foreground: 0 0% 98%;
-        --card: 240 10% 3.9%;
-        --card-foreground: 0 0% 98%;
-        --popover: 240 10% 3.9%;
-        --popover-foreground: 0 0% 98%;
-        --primary: 0 0% 98%;
-        --primary-foreground: 240 5.9% 10%;
-        --secondary: 240 3.7% 15.9%;
-        --secondary-foreground: 0 0% 98%;
-        --muted: 240 3.7% 15.9%;
-        --muted-foreground: 240 5% 64.9%;
-        --accent: 240 3.7% 15.9%;
-        --accent-foreground: 0 0% 98%;
-        --destructive: 0 62.8% 30.6%;
-        --destructive-foreground: 0 0% 98%;
-        --border: 240 3.7% 15.9%;
-        --input: 240 3.7% 15.9%;
-        --ring: 240 4.9% 83.9%;
+        --muted: 240 3.7% 10%;
+        --muted-foreground: 240 5% 60%;
+        --border: 240 3.7% 12%;
     }
 
     body {
-        @apply antialiased text-slate-900 bg-white selection:bg-blue-100 selection:text-blue-900 transition-colors duration-300;
+        @apply antialiased text-slate-900 bg-white selection:bg-blue-100 selection:text-blue-900 transition-colors duration-500;
         font-feature-settings: "cv02", "cv03", "cv04", "cv11";
     }
-}
 
-/* Dark Mode Overrides (Deep Black) */
-:where(.dark) {
-    body {
-        @apply bg-zinc-950 text-zinc-300;
+    .dark body {
+        @apply bg-[#09090b] text-zinc-300;
     }
 }
 
-/* Classic Docs Typography */
+/* Minimalist Typography */
 .prose {
-    @apply max-w-none prose-slate prose-headings:tracking-tight prose-a:text-blue-600 prose-a:no-underline hover:prose-a:underline prose-pre:bg-transparent prose-pre:p-0;
+    @apply max-w-none prose-slate prose-headings:tracking-tight prose-a:text-blue-600 prose-a:font-medium prose-a:no-underline hover:prose-a:underline prose-pre:bg-transparent prose-pre:p-0;
 }
 
 .dark .prose {
     @apply prose-invert;
 }
 
-.prose h1 {
-    @apply text-4xl font-extrabold mb-8 text-slate-900 tracking-tight;
-}
+/* Force dark mode colors for MDX if standard tailwind classes fail in some environments */
+.dark .prose h1 { color: #ffffff; }
+.dark .prose h2 { color: #f4f4f5; border-color: #18181b; }
+.dark .prose h3 { color: #e4e4e7; }
+.dark .prose p { color: #a1a1aa; }
+.dark .prose strong { color: #f4f4f5; }
+.dark .prose li { color: #a1a1aa; }
 
-.dark .prose h1 {
-    @apply text-zinc-100;
+.prose h1 {
+    @apply text-4xl font-extrabold mb-10 text-slate-900 tracking-tight;
 }
 
 .prose h2 {
-    @apply text-2xl font-bold mt-12 mb-6 pb-2 border-b border-slate-200/60;
-}
-
-.dark .prose h2 {
-    @apply border-zinc-800/60 text-zinc-100;
+    @apply text-2xl font-bold mt-16 mb-6 pb-2 border-b border-slate-100;
 }
 
 .prose h3 {
-    @apply text-xl font-semibold mt-8 mb-4;
+    @apply text-xl font-semibold mt-10 mb-4 text-slate-800;
 }
 
 .prose p {
-    @apply leading-7 text-slate-600;
+    @apply leading-8 text-slate-600 text-[16px] mb-6;
 }
 
-.dark .prose p {
-    @apply text-zinc-400;
-}
-
-/* Sidebar Styles */
-aside {
-    @apply bg-white border-r border-slate-200/60 transition-colors duration-300;
-}
-
-.dark aside {
-    @apply bg-zinc-950 border-zinc-800/60;
-}
-
-.sidebar-link-active {
-    @apply text-blue-600 bg-blue-50/50 font-semibold relative;
-}
-
-.dark .sidebar-link-active {
-    @apply text-blue-400 bg-blue-500/10 ring-1 ring-blue-500/20;
-}
-
-/* Code Blocks Styling (Premium) */
-.code-block-wrapper {
-    @apply relative my-6 rounded-xl border border-slate-200/60 bg-slate-50/50 overflow-hidden transition-all;
-}
-
-.dark .code-block-wrapper {
-    @apply border-zinc-800/60 bg-zinc-900/30;
-}
-
-pre {
-    @apply p-4 overflow-x-auto text-sm leading-relaxed !bg-transparent;
-}
-
-/* Mermaid Wrapper */
-.mermaid {
-    @apply my-8 flex justify-center bg-white dark:bg-zinc-900/50 p-6 rounded-xl border border-slate-200/60 dark:border-zinc-800/60;
-}
-
-/* Header Styles */
+/* Minimalist UI Layout */
 header {
-    @apply border-b border-slate-200/60 bg-white/80 backdrop-blur-xl sticky top-0 z-50 transition-colors duration-300;
+    @apply border-b border-slate-100/50 bg-white/70 backdrop-blur-xl sticky top-0 z-50 transition-all duration-300;
 }
 
 .dark header {
-    @apply border-zinc-800/60 bg-zinc-950/80;
+    @apply border-zinc-900/50 bg-[#09090b]/70;
+}
+
+/* Navigation Items */
+.sidebar-link-active {
+    @apply text-blue-600 bg-blue-50/40 font-semibold;
+}
+
+.dark .sidebar-link-active {
+    @apply text-blue-400 bg-blue-500/5;
 }
 
 .navbar-link {
-    @apply text-sm font-medium text-slate-500 hover:text-slate-900 transition-colors;
+    @apply text-sm font-medium text-slate-500 hover:text-slate-900 transition-colors px-3 py-2 rounded-lg hover:bg-slate-50;
 }
 
 .dark .navbar-link {
-    @apply text-zinc-400 hover:text-zinc-100;
+    @apply text-zinc-400 hover:text-zinc-100 hover:bg-zinc-900/50;
 }
 
-/* Right Sidebar (TOC) */
+/* Code Blocks & MDX */
+.code-block-wrapper {
+    @apply relative my-8 rounded-2xl border border-slate-100 bg-slate-50/30 overflow-hidden transition-all;
+}
+
+.dark .code-block-wrapper {
+    @apply border-zinc-900 bg-zinc-900/20;
+}
+
+pre {
+    @apply p-5 overflow-x-auto text-[13px] leading-relaxed font-mono;
+}
+
+.mermaid {
+    @apply my-10 flex justify-center bg-white dark:bg-transparent p-8 rounded-2xl border border-slate-100 dark:border-zinc-900;
+}
+
+/* TOC Styles */
 .toc-container {
-    @apply hidden xl:block w-64 h-[calc(100vh-4rem)] sticky top-16 px-6 py-10 text-sm;
+    @apply hidden xl:block w-64 h-[calc(100vh-4rem)] sticky top-16 px-6 py-12 text-[13px];
 }
 
 .toc-link {
@@ -179,18 +130,10 @@ header {
     @apply text-zinc-500 hover:text-zinc-300;
 }
 
-.toc-link-active {
-    @apply text-blue-600 font-medium;
-}
-
-.dark .toc-link-active {
-    @apply text-blue-400;
-}
-
-/* Custom Scrollbar */
+/* Scrollbar */
 ::-webkit-scrollbar {
-    width: 6px;
-    height: 6px;
+    width: 5px;
+    height: 5px;
 }
 
 ::-webkit-scrollbar-track {
@@ -203,4 +146,9 @@ header {
 
 .dark ::-webkit-scrollbar-thumb {
     @apply bg-zinc-800 hover:bg-zinc-700;
+}
+
+/* Clean UI Patterns */
+.card-hover {
+    @apply hover:border-blue-500/20 hover:shadow-2xl hover:shadow-blue-500/5 transition-all duration-500;
 }
